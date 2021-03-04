@@ -156,6 +156,15 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
 
+  # instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
+  # never give too much permissions to your EC2 instances! if they get hacked, the permissions get hacked also!
+  # in this example, I create a Role called UdacityS3ReadOnlyC2 and just give it a policy of S3 Read-Only Access
+  ProfileWithRoles:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - UdacityS3ReadOnlyEC2
+
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -206,8 +215,8 @@ Resources:
           apt-get install apache2 -y
           systemctl start apache2.service
           cd /var/www/html
-          echo "Udacity Demo Web Server Up and Running!" > index.html
-      ImageId: ami-07650af13419547af
+          echo "it works! Udagram, Udacity" > index.html
+      ImageId: ami-08962a4068733a2b6
       SecurityGroups:
         - Ref: WebServerSecGroup
       InstanceType: t3.small
@@ -228,6 +237,7 @@ Resources:
       MaxSize: '5'
       TargetGroupARNs:
         - Ref: TargetGroup
+
   LB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
