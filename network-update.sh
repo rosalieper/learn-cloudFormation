@@ -1,0 +1,1 @@
+aws cloudformation update-stack --stack-name myfirstinfra --template-body file:///home/pero/Projects/learn-ci-cd/network.yaml --parameters file:///home/pero/Projects/learn-ci-cd/network-parameter.json --capabilities CAPABILITY_NAMED_IAM
